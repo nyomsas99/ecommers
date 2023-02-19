@@ -20,9 +20,14 @@ img {
   width: 100%;
 }
 body {
-  color: var(--text-color);
-  background-color: #3eecac;
-  background-image: linear-gradient(19deg, #3eecac 0%, #ee74e1 100%);
+  /* color: var(--text-color); */
+  /* background-color: #3eecac;
+  background-image: linear-gradient(19deg, #3eecac 0%, #ee74e1 100%); */
+  background-image: url("../img/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #ffffff;
+  width: 100%;
 }
 .container {
   max-width: 1068px;
@@ -183,9 +188,14 @@ header {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, auto));
   gap: 1.5rem;
+  background-color: rgba(16 18 27 / 40%);
+  /* border-radius: 10px; */
+  backdrop-filter: blur(20px);
+  /* position: relative; */
 }
 .product-box {
   position: relative;
+  padding: 5px;
 }
 .product-box:hover {
   padding: 10px;
