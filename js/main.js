@@ -1,3 +1,65 @@
+// Fungsi untuk menyimpan data cart ke localStorage
+function saveCartToLocalStorage() {
+  const cartItems = [];
+  const cartBoxes = document.querySelectorAll(".cart-box");
+
+  cartBoxes.forEach((cartBox) => {
+    const productImg = cartBox.querySelector(".cart-img").src;
+    const productTitle = cartBox.querySelector(".cart-product-title").innerText;
+    const productPrice = cartBox.querySelector(".cart-price").innerText;
+    const productQuantity = cartBox.querySelector(".cart-quantity").value;
+
+    cartItems.push({
+      img: productImg,
+      title: productTitle,
+      price: productPrice,
+      quantity: productQuantity,
+    });
+  });
+
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+}
+
+// Fungsi untuk memuat data cart dari localStorage
+function loadCartFromLocalStorage() {
+  const savedCartItems = JSON.parse(localStorage.getItem("cartItems"));
+  if (savedCartItems) {
+    savedCartItems.forEach((item) => {
+      addProductToCart(item.title, item.price, item.img, item.quantity);
+    });
+    updateCartQuantity();
+  }
+}
+
+// Tambahkan ini di dalam fungsi ready() untuk memuat data dari localStorage saat halaman dimuat
+document.addEventListener("DOMContentLoaded", function () {
+  loadCartFromLocalStorage(); // Muat data dari localStorage
+  updateCartQuantity();
+});
+
+// Modifikasi fungsi di mana keranjang berubah untuk memanggil saveCartToLocalStorage()
+function addCartClicked(event) {
+  // Kode awal dari addCartClicked tetap
+  addProductToCart(title, price, productImg);
+  updatetotal();
+  saveCartToLocalStorage(); // Simpan setelah menambahkan item
+}
+
+function removeCartItem(event) {
+  // Kode awal dari removeCartItem tetap
+  saveCartToLocalStorage(); // Simpan setelah menghapus item
+}
+
+function quantityChanged(event) {
+  // Kode awal dari quantityChanged tetap
+  saveCartToLocalStorage(); // Simpan setelah perubahan kuantitas
+}
+
+function buyButtonClicked() {
+  // Kode awal dari buyButtonClicked tetap
+  localStorage.removeItem("cartItems"); // Hapus data di localStorage setelah pembelian
+}
+
 // cart
 let cartIcon = document.querySelector("#cart-icon");
 let cart = document.querySelector(".cart");
@@ -176,3 +238,85 @@ function updateCartQuantity() {
 document.addEventListener("DOMContentLoaded", function () {
   updateCartQuantity();
 });
+
+function buyButtonClicked() {
+  // Menampilkan modal untuk memilih metode pembayaran
+  document.getElementById("payment-modal").style.display = "block";
+}
+
+// Menutup modal ketika tombol tutup diklik
+document.getElementById("close-modal").onclick = function () {
+  document.getElementById("payment-modal").style.display = "none";
+};
+
+// Menutup modal ketika pengguna mengklik di luar modal
+window.onclick = function (event) {
+  const modal = document.getElementById("payment-modal");
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+// Menambahkan fungsi untuk metode pembayaran yang dipilih
+const paymentButtons = document.querySelectorAll(".payment-button");
+paymentButtons.forEach((button) => {
+  button.addEventListener("click", function () {
+    const selectedPaymentMethod = this.textContent;
+    alert("Metode Pembayaran yang dipilih: " + selectedPaymentMethod);
+    // Di sini Anda bisa menambahkan logika lebih lanjut untuk proses pembayaran
+    document.getElementById("payment-modal").style.display = "none"; // Tutup modal
+  });
+});
+function buyButtonClicked() {
+  const cartContent = document.getElementsByClassName("cart-content")[0];
+  const cartBoxes = cartContent.getElementsByClassName("cart-box");
+
+  if (cartBoxes.length === 0) {
+    alert("Keranjang Anda kosong!");
+    return; // Tidak ada produk di keranjang
+  }
+
+  let totalAmount = 0;
+  let productDetails = "";
+
+  // Mengumpulkan informasi semua produk di keranjang
+  for (let i = 0; i < cartBoxes.length; i++) {
+    const cartBox = cartBoxes[i];
+    const productTitle =
+      cartBox.getElementsByClassName("cart-product-title")[0].innerText;
+    const productImg = cartBox.getElementsByClassName("cart-img")[0].src;
+    const priceElement = cartBox.getElementsByClassName("cart-price")[0];
+    const quantityElement = cartBox.getElementsByClassName("cart-quantity")[0];
+
+    const price = parseFloat(
+      priceElement.innerText.replace("Rp.", "").replace(/\./g, "").trim()
+    );
+    const quantity = quantityElement.value;
+    const subtotal = price * quantity;
+
+    totalAmount += subtotal; // Menambahkan subtotal ke total
+
+    // Menyiapkan detail produk untuk ditampilkan di modal
+    productDetails += `
+          <div>
+              <img src="${productImg}" alt="${productTitle}" class="product-img" />
+              <div>
+                  <h3>${productTitle}</h3>
+                  <p>Nominal yang harus dibayar: Rp.${subtotal.toLocaleString(
+                    "id-ID"
+                  )}</p>
+              </div>
+          </div>
+      `;
+  }
+
+  // Mengupdate informasi produk yang dipilih
+  document.querySelector(".selected-product-grid").innerHTML = productDetails;
+
+  // Menampilkan total yang harus dibayar
+  document.getElementById("total-amount").innerText =
+    "Rp." + totalAmount.toLocaleString("id-ID");
+
+  // Menampilkan modal untuk memilih metode pembayaran
+  document.getElementById("payment-modal").style.display = "block";
+}

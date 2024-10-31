@@ -117,6 +117,29 @@
           <i class="bx bx-shopping-bag add-cart"></i>
         </div>
       </div>
+      <!-- Modal untuk memilih metode pembayaran -->
+      <div class="payment-modal" id="payment-modal">
+        <div class="modal-content">
+          <span class="close-modal" id="close-modal">&times;</span>
+          <h2 style="color: black">Pilih Metode Pembayaran:</h2>
+          <div class="selected-product-grid" style="color: black">
+            <!-- Product items akan ditambahkan di sini melalui JavaScript -->
+          </div>
+          <div class="payment-options">
+            <h3 style="color: black">E-Wallet:</h3>
+            <button class="payment-button">DANA</button>
+            <button class="payment-button">OVO</button>
+            <h3 style="color: black">Transfer Bank:</h3>
+            <button class="payment-button">BRI</button>
+            <button class="payment-button">BNI</button>
+            <button class="payment-button">BCA</button>
+          </div>
+          <p style="color: black">
+            Total Nominal yang harus dibayar: <span id="total-amount"></span>
+          </p>
+          <!-- Ensure this is present -->
+        </div>
+      </div>
     </section>
     <!-- main js -->
     <script src="js/main.js"></script>
