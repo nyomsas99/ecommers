@@ -272,6 +272,23 @@ header {
   right: 10px;
   display: none; /* Sembunyikan jika kosong */
 }
+/* CSS umum untuk container produk */
+.shop-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Jarak antar produk */
+}
+
+.product-box {
+  width: 100%; /* Lebar default pada desktop */
+}
+
+/* Media query untuk tampilan mobile */
+@media (max-width: 768px) {
+  .product-box {
+    width: calc(50% - 10px); /* Lebar 50% per produk pada layar kecil */
+  }
+}
 
 @media (max-width: 360px) {
   .shop {
