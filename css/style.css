@@ -298,3 +298,30 @@ header {
     width: 280px;
   }
 }
+
+/* CSS umum untuk container produk */
+.shop-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Jarak antar produk */
+}
+
+/* Atur lebar produk secara proporsional */
+.product-box {
+  width: calc(33.33% - 20px); /* Lebar 33.33% pada desktop, dengan jarak */
+  max-width: 300px; /* Maksimal lebar produk */
+  box-sizing: border-box; /* Termasuk padding dan border dalam total width */
+}
+
+/* Atur gambar produk agar responsif */
+.product-img {
+  width: 100%; /* Gambar mengikuti lebar produk */
+  height: auto; /* Jaga rasio aspek gambar */
+}
+
+/* Media query untuk tampilan mobile */
+@media (max-width: 768px) {
+  .product-box {
+    width: calc(50% - 10px); /* Lebar 50% per produk pada layar kecil */
+  }
+}
