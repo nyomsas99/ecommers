@@ -260,6 +260,19 @@ header {
   }
 }
 
+/* CSS untuk notifikasi jumlah di ikon keranjang */
+.quantity {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none; /* Sembunyikan jika kosong */
+}
+
 @media (max-width: 360px) {
   .shop {
     margin-top: 1rem !important;

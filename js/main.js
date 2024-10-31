@@ -2,6 +2,7 @@
 let cartIcon = document.querySelector("#cart-icon");
 let cart = document.querySelector(".cart");
 let closeCart = document.querySelector("#close-cart");
+let quantity = document.querySelector(".quantity");
 
 cartIcon.onclick = () => {
   cart.classList.add("active");
@@ -41,6 +42,7 @@ function ready() {
     .getElementsByClassName("btn-buy")[0]
     .addEventListener("click", buyButtonClicked);
 }
+
 // buy button
 function buyButtonClicked() {
   alert("Your Order is placed");
@@ -48,6 +50,8 @@ function buyButtonClicked() {
   while (cartContent.hasChildNodes()) {
     cartContent.removeChild(cartContent.firstChild);
   }
+  itemCount = 0; // Reset jumlah item
+  updateCartQuantity(); // Update tampilan jumlah item
   updatetotal();
 }
 
@@ -55,8 +59,11 @@ function buyButtonClicked() {
 function removeCartItem(event) {
   var buttonClicked = event.target;
   buttonClicked.parentElement.remove();
+  itemCount = Math.max(0, itemCount - 1); // Kurangi jumlah barang, minimum 0
+  updateCartQuantity(); // Update tampilan jumlah item
   updatetotal();
 }
+
 // quantity changes
 function quantityChanged(event) {
   var input = event.target;
@@ -65,7 +72,8 @@ function quantityChanged(event) {
   }
   updatetotal();
 }
-// ad to cart
+
+// add to cart
 function addCartClicked(event) {
   var button = event.target;
   var shopProducts = button.parentElement;
@@ -75,17 +83,20 @@ function addCartClicked(event) {
   addProductToCart(title, price, productImg);
   updatetotal();
 }
+
 function addProductToCart(title, price, productImg) {
   var cartShopBox = document.createElement("div");
   cartShopBox.classList.add("cart-box");
   var cartItems = document.getElementsByClassName("cart-content")[0];
   var cartItemsNames = cartItems.getElementsByClassName("cart-product-title");
+
   for (var i = 0; i < cartItemsNames.length; i++) {
     if (cartItemsNames[i].innerText == title) {
-      alert("You have already add this item to cart");
+      alert("You have already added this item to cart");
       return;
     }
   }
+
   var cartBoxContent = `<img src="${productImg}" alt="" class="cart-img" />
                     <div class="detail-box">
                     <div class="cart-product-title">${title}</div>
@@ -93,16 +104,21 @@ function addProductToCart(title, price, productImg) {
                     <input type="number" value="1" class="cart-quantity" />
                     </div>
                     <!-- remove cart -->
-                    <i class="bx bxs-trash-alt cart-remove"></i>
-`;
+                    <i class="bx bxs-trash-alt cart-remove"></i>`;
+
   cartShopBox.innerHTML = cartBoxContent;
   cartItems.append(cartShopBox);
+
   cartShopBox
     .getElementsByClassName("cart-remove")[0]
     .addEventListener("click", removeCartItem);
   cartShopBox
     .getElementsByClassName("cart-quantity")[0]
     .addEventListener("change", quantityChanged);
+
+  // Tambahkan 1 ke itemCount hanya ketika produk berhasil ditambahkan ke cart
+  itemCount += 1;
+  updateCartQuantity();
 }
 
 // update total
@@ -110,15 +126,53 @@ function updatetotal() {
   var cartContent = document.getElementsByClassName("cart-content")[0];
   var cartBoxes = cartContent.getElementsByClassName("cart-box");
   var total = 0;
+
   for (var i = 0; i < cartBoxes.length; i++) {
     var cartBox = cartBoxes[i];
     var priceElement = cartBox.getElementsByClassName("cart-price")[0];
     var quantityElement = cartBox.getElementsByClassName("cart-quantity")[0];
-    var price = parseFloat(priceElement.innerText.replace("Rp.", ""));
+    var price = parseFloat(
+      priceElement.innerText.replace("Rp.", "").replace(".", "")
+    );
     var quantity = quantityElement.value;
-    total = total + price * quantity;
+    total += price * quantity;
   }
-  //   if price contain
+
   total = Math.round(total * 100) / 100;
-  document.getElementsByClassName("total-price")[0].innerText = "Rp." + total;
+  document.getElementsByClassName("total-price")[0].innerText =
+    formatRupiah(total);
 }
+
+// Fungsi untuk memformat angka menjadi format Rupiah
+function formatRupiah(number) {
+  return "Rp." + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// Format harga produk saat halaman dimuat
+document.addEventListener("DOMContentLoaded", function () {
+  const priceElements = document.querySelectorAll(".price");
+  priceElements.forEach((priceElement) => {
+    const priceValue = priceElement.textContent.replace("Rp.", "").trim();
+    priceElement.textContent = formatRupiah(priceValue);
+  });
+
+  // Format total harga jika sudah ada nilainya
+  const totalPriceElement = document.querySelector(".total-price");
+  const totalValue = totalPriceElement.textContent.replace("Rp.", "").trim();
+  totalPriceElement.textContent = formatRupiah(totalValue);
+});
+
+// Inisialisasi jumlah item di keranjang
+let itemCount = 0;
+
+// Update tampilan jumlah item di ikon keranjang
+function updateCartQuantity() {
+  const cartQuantityElement = document.querySelector(".quantity");
+  cartQuantityElement.textContent = itemCount;
+  cartQuantityElement.style.display = itemCount > 0 ? "inline-block" : "none"; // Sembunyikan jika kosong
+}
+
+// Event listener untuk menambah barang ke keranjang
+document.addEventListener("DOMContentLoaded", function () {
+  updateCartQuantity();
+});
