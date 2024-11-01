@@ -25,9 +25,12 @@ body {
   background-image: linear-gradient(19deg, #3eecac 0%, #ee74e1 100%); */
   /* background-image: url("../img/bg.jpg");
   background-repeat: no-repeat; */
-  background: #1a2a6c; /* fallback for old browsers */
+  /* background: #1a2a6c; 
   background: -webkit-linear-gradient(to right, #fdbb2d, #b21f1f, #1a2a6c);
-  background: linear-gradient(to right, #fdbb2d, #b21f1f, #1a2a6c);
+  background: linear-gradient(to right, #fdbb2d, #b21f1f, #1a2a6c); */
+  background: #283c86; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #45a247, #283c86);
+  background: linear-gradient(to right, #45a247, #283c86);
 
   background-size: cover;
   color: #ffffff;
