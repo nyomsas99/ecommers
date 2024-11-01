@@ -292,3 +292,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const totalValue = totalPriceElement.textContent.replace("Rp.", "").trim();
   totalPriceElement.textContent = formatRupiah(totalValue);
 });
+
+// Pastikan skrip ini dijalankan setelah elemen navbar tersedia di halaman
+window.addEventListener("load", function () {
+  const navbarText = document.querySelector(".logo");
+  navbarText.classList.add("show");
+});
+window.addEventListener("load", function () {
+  const navbarText = document.querySelector(".logo");
+
+  // Tambahkan animasi "typing" saat halaman dimuat
+  navbarText.classList.add("show");
+
+  // Menghapus animasi "typing" dan menambahkan kelas `hide` untuk efek hilang
+  setTimeout(() => {
+    navbarText.classList.add("hide");
+  }, 5000); // Menghilang setelah 5 detik, sesuaikan waktunya sesuai kebutuhan
+});
