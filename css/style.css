@@ -23,8 +23,12 @@ body {
   /* color: var(--text-color); */
   /* background-color: #3eecac;
   background-image: linear-gradient(19deg, #3eecac 0%, #ee74e1 100%); */
-  background-image: url("../img/bg.jpg");
-  background-repeat: no-repeat;
+  /* background-image: url("../img/bg.jpg");
+  background-repeat: no-repeat; */
+  background: #1a2a6c; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #fdbb2d, #b21f1f, #1a2a6c);
+  background: linear-gradient(to right, #fdbb2d, #b21f1f, #1a2a6c);
+
   background-size: cover;
   color: #ffffff;
   width: 100%;
@@ -406,4 +410,21 @@ header {
   .selected-product-grid {
     grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
   }
+}
+/* Posisi ikon keranjang */
+#cart-icon {
+  position: relative; /* Set relative untuk ikon */
+}
+
+/* Gaya dan posisi notifikasi jumlah item */
+.quantity {
+  position: absolute;
+  top: -5px; /* Sesuaikan untuk posisi vertikal */
+  right: -5px; /* Sesuaikan untuk posisi horizontal */
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
 }

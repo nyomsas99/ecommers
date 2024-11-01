@@ -273,3 +273,22 @@ paymentButtons.forEach((button) => {
     document.getElementById("payment-modal").style.display = "none";
   });
 });
+
+// Fungsi untuk memformat angka menjadi format Rupiah untuk harga
+function formatRupiah(number) {
+  return "Rp." + parseInt(number, 10).toLocaleString("id-ID");
+}
+
+// Format harga produk saat halaman dimuat
+document.addEventListener("DOMContentLoaded", function () {
+  const priceElements = document.querySelectorAll(".price");
+  priceElements.forEach((priceElement) => {
+    const priceValue = priceElement.textContent.replace("Rp.", "").trim();
+    priceElement.textContent = formatRupiah(priceValue);
+  });
+
+  // Format total harga jika sudah ada nilainya
+  const totalPriceElement = document.querySelector(".total-price");
+  const totalValue = totalPriceElement.textContent.replace("Rp.", "").trim();
+  totalPriceElement.textContent = formatRupiah(totalValue);
+});
